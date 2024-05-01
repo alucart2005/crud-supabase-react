@@ -3,7 +3,7 @@ import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
 import supabaselogo from "../assets/supabaselogo.png";
 import googlelogo from "../assets/logogoogle.png";
-import { UserAuth } from "../context/AuthCOntext";
+import { UserAuth } from "../index";
 
 export function Login() {
   const {signInWithGoogle} = UserAuth();
