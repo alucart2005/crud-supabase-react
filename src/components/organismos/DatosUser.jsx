@@ -1,10 +1,18 @@
 import styled from "styled-components";
-import { Btncircular, UserAuth, v } from "../../index";
+import {
+  Btncircular,
+  ContentMenuDesplegable,
+  UserAuth,
+  v,
+  DesplegableUser,
+} from "../../index";
+import { useState } from "react";
 
 export function DatosUser() {
   const { user } = UserAuth();
+  const [openDesplegableUser, setOpenDesplegableUser] = useState(false);
   return (
-    <Container>
+    <Container onClick={() => setOpenDesplegableUser(!openDesplegableUser)}>
       <div className="imgContainer">
         <img src={user.picture} />
       </div>
@@ -13,12 +21,15 @@ export function DatosUser() {
           icono={v.iconocorona}
           width="25px"
           height="25px"
-          bgcolor="white"
+          bgcolor="white" 
           fontsize="11px"
           texcolor="black"
         />
       </div>
-      <span>{user.name}</span>
+      <span className="name">{user.name}</span>
+      {openDesplegableUser && (
+        <ContentMenuDesplegable top="60px" datadesplegable={DesplegableUser} />
+      )}
     </Container>
   );
 }
@@ -59,7 +70,7 @@ const Container = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.bg3};
   }
-  span{
+  .name {
     width: 100%;
     font-weight: 500;
     overflow: hidden;
