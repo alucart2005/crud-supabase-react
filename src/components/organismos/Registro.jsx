@@ -9,6 +9,8 @@ export function Registro() {
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const ref = useRef(null);
   const [file, setFile] = useState([]);
+  const [showPicker, setShowPicker] = useState(false);
+  const [emojiSelect, setEmojiSelect] = useState("👽")
   function prepararImagen(e) {
     let filelocal = e.target.files;
     let fileReaderlocal = new FileReader();
@@ -20,6 +22,10 @@ export function Registro() {
         setFileurl(fileReaderlocal.result);
       };
     }
+  }
+  function onEmojiClick(emojiObject) {
+    setEmojiSelect(()=>emojiObject.emoji)
+    setShowPicker(false)
   }
   const {
     register,
@@ -71,12 +77,25 @@ export function Registro() {
             </div>
             <div>
               <ContentTitle>
-                <input type="text"></input>
+                <input
+                  value={emojiSelect}
+                  type="text"
+                  onClick={() => setShowPicker(!showPicker)}
+                ></input>
                 <span>icono</span>
               </ContentTitle>
-              <ContainerEmojiPicker>
-                <EmojiPicker/>
-              </ContainerEmojiPicker>
+              {showPicker && (
+                <ContainerEmojiPicker>
+                  <EmojiPicker onEmojiClick={onEmojiClick}/>
+                </ContainerEmojiPicker>
+              )}
+            </div>
+            <div className="btnGuardarContent">
+              <BtnIcono
+                bgcolor="#a449e0"
+                titulo="Save"
+                icono={<v.iconoreact />}
+              />
             </div>
           </section>
         </form>
@@ -96,6 +115,41 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 100;
+  .sub-contenedor {
+    width: 500px;
+    max-width: 85%;
+    border-radius: 20px;
+    background: ${({ theme }) => theme.bgtotal};
+    padding: 13px 36px 20px;
+    box-shadow: -2px 1px 30px -6px rgba(237, 55, 237, 1);
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      h1 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      span {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+    .formulario {
+      section {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        .colorContainer {
+          .colorPickerContent {
+            padding-top: 12px;
+            min-height: 50px;
+          }
+        }
+      }
+    }
+  }
 `;
 const PictureContainer = styled.div`
   display: flex;
@@ -117,8 +171,17 @@ const ContentTitle = styled.div`
   align-items: center;
   gap: 20px;
   svg {
-    font-size: 20px;
+    font-size: 25px;
   }
+  input{
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 2px;
+    width: 35px;
+    font-size: 25px;
+  }
+
 `;
 const ContainerEmojiPicker = styled.div`
   position: absolute;
