@@ -19,8 +19,10 @@ a:hover {
 body {
   margin: 0;
   place-items: center;
-  min-width: 100vw;
   min-height: 100vh;
+  min-width: 100vw;
+  overflow-x: hidden;
+  /* overflow: overlay; */
 }
 
 h1 {
@@ -48,10 +50,11 @@ button:focus-visible {
 }
 body::-webkit-scrollbar {
   width: 12px;
-  background: transparent;
+  /* background: transparent; */
+  background: linear-gradient(rgb(6, 34, 22), rgb(25, 98, 121), black);
 }
 body::-webkit-scrollbar-thumb {
-  background: rgba(27, 196, 95, 0.4);
+  background: linear-gradient(rgb(126, 219, 182), rgb(25, 98, 121), rgb(126, 219, 182));
   border-radius: 7px;
   height: 100px;
   filter: blur(20px);

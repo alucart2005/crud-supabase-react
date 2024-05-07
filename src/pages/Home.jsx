@@ -1,6 +1,6 @@
 import googlelogo from "../assets/logogoogle.png";
 import { Perfil } from "../components/Perfil";
-import { Buscador, Tabla, UserAuth, Header } from "../index";
+import { Buscador, Tabla, UserAuth, Header, BtnNuevo, Registro } from "../index";
 import styled from "styled-components";
 
 export function Home() {
@@ -8,10 +8,12 @@ export function Home() {
     <Container>
       <Header />
       <span className="difuminado"></span>
+      <Registro/>
       <section className="contentBuscador">
         <Buscador />
-        <Tabla />
+        <BtnNuevo />
       </section>
+      <Tabla />
     </Container>
   );
 }
@@ -32,5 +34,11 @@ const Container = styled.div`
     position: absolute;
     filter: blur(4rem);
     top: 50px;
+  }
+  .contentBuscador{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10%;
   }
 `;

@@ -21,4 +21,6 @@ export * from './components/organismos/Tabla'
 export * from './components/atomos/ColorContent'
 export * from './components/moleculas/ContentAccionesTabla'
 export * from './components/atomos/AccionTabla'
-
+export * from './components/moleculas/BtnNuevo'
+export * from './components/organismos/Registro'
+export * from './components/moleculas/BtnIcono'
