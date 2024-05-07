@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
-import { BtnIcono, v } from "../../index";
-import { useRef } from "react";
+import { BtnIcono, InputText, v } from "../../index";
+import { useForm } from "react-hook-form";
+import { CirclePicker } from "react-color";
+import EmojiPicker from "emoji-picker-react";
+
 export function Registro() {
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const ref = useRef(null);
-  const [file, setFile] = useState([])
+  const [file, setFile] = useState([]);
   function prepararImagen(e) {
     let filelocal = e.target.files;
     let fileReaderlocal = new FileReader();
@@ -13,11 +16,17 @@ export function Registro() {
     const tipoimg = e.target.files[0];
     setFile(tipoimg);
     if (fileReaderlocal && filelocal && filelocal.length) {
-      fileReaderlocal.onload=function load(){
+      fileReaderlocal.onload = function load() {
         setFileurl(fileReaderlocal.result);
-      }
+      };
     }
   }
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  function insertar() {}
   return (
     <Container>
       <div className="sub-contenedor">
@@ -41,6 +50,36 @@ export function Registro() {
             onChange={(e) => prepararImagen(e)}
           ></input>
         </PictureContainer>
+        <form className="formulario" onSubmit={handleSubmit(insertar)}>
+          <section>
+            <div>
+              <InputText
+                register={register}
+                placeholder="Descripcion"
+                errors={errors}
+                style={{ textTransform: "capitalize" }}
+              />
+            </div>
+            <div className="colorContainer">
+              <ContentTitle>
+                {<v.paletacolores />}
+                <span>Color</span>
+              </ContentTitle>
+              <div className="colorPickerContent">
+                <CirclePicker />
+              </div>
+            </div>
+            <div>
+              <ContentTitle>
+                <input type="text"></input>
+                <span>icono</span>
+              </ContentTitle>
+              <ContainerEmojiPicker>
+                <EmojiPicker/>
+              </ContainerEmojiPicker>
+            </div>
+          </section>
+        </form>
       </div>
     </Container>
   );
@@ -71,4 +110,23 @@ const PictureContainer = styled.div`
       object-fit: cover;
     }
   }
+`;
+const ContentTitle = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+  svg {
+    font-size: 20px;
+  }
+`;
+const ContainerEmojiPicker = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;

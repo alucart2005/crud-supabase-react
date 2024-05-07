@@ -11,8 +11,11 @@
   "dependencies": {
     "@rsuite/icons": "^1.0.3",
     "@supabase/supabase-js": "^2.42.0",
+    "emoji-picker-react": "^4.9.2",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.9.0",
     "rsuite": "^5.60.0",
