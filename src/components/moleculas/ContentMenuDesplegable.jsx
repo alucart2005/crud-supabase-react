@@ -1,13 +1,18 @@
 import styled from "styled-components";
 import { ItemsDesplegable, v } from "../../index";
 
-export function ContentMenuDesplegable({datadesplegable,top}) {
+export function ContentMenuDesplegable({ datadesplegable, top, funcion }) {
   return (
     <Container top={top}>
-      {datadesplegable.map((item,index)=>{
-        return(
-          <ItemsDesplegable key={index} text={item.text} icono={<item.icono/>}/>
-         )
+      {datadesplegable.map((item, index) => {
+        return (
+          <ItemsDesplegable
+            funcion={() => funcion(item.tipo)}
+            key={index}
+            text={item.text}
+            icono={<item.icono />}
+          />
+        );
       })}
     </Container>
   );

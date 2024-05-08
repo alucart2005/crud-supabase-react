@@ -7,10 +7,17 @@ import {
   DesplegableUser,
 } from "../../index";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function DatosUser() {
   const { user } = UserAuth();
+  const navigate = useNavigate();
   const [openDesplegableUser, setOpenDesplegableUser] = useState(false);
+  function funcionXtipo(tipo) {
+    if (tipo === "miperfil") {
+      navigate("/perfil")
+    }
+  }
   return (
     <Container onClick={() => setOpenDesplegableUser(!openDesplegableUser)}>
       <div className="imgContainer">
@@ -21,14 +28,14 @@ export function DatosUser() {
           icono={v.iconocorona}
           width="25px"
           height="25px"
-          bgcolor="white" 
+          bgcolor="white"
           fontsize="11px"
           texcolor="black"
         />
       </div>
       <span className="name">{user.name}</span>
       {openDesplegableUser && (
-        <ContentMenuDesplegable top="60px" datadesplegable={DesplegableUser} />
+        <ContentMenuDesplegable funcion={(p)=>funcionXtipo(p)} top="60px" datadesplegable={DesplegableUser} />
       )}
     </Container>
   );

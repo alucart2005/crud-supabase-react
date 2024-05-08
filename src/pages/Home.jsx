@@ -1,6 +1,7 @@
 import { useState } from "react";
-import googlelogo from "../assets/logogoogle.png";
-import { Perfil } from "../components/Perfil";
+// import googlelogo from "../assets/logogoogle.png";
+// import { Perfil } from "../components/Perfil";
+
 import {
   Buscador,
   Tabla,
