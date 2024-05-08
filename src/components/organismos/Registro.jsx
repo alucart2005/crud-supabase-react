@@ -5,12 +5,13 @@ import { useForm } from "react-hook-form";
 import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
 
-export function Registro() {
+export function Registro({onClose}) {
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const ref = useRef(null);
   const [file, setFile] = useState([]);
   const [showPicker, setShowPicker] = useState(false);
   const [emojiSelect, setEmojiSelect] = useState("👽")
+  const [currentColor, setColor]=useState("#e91e63")
   function prepararImagen(e) {
     let filelocal = e.target.files;
     let fileReaderlocal = new FileReader();
@@ -27,6 +28,12 @@ export function Registro() {
     setEmojiSelect(()=>emojiObject.emoji)
     setShowPicker(false)
   }
+  function elegirColor(color) {
+    setColor(color.hex)
+  }
+  function abrirImagenes() {
+    ref.current.click();
+  }
   const {
     register,
     formState: { errors },
@@ -38,13 +45,14 @@ export function Registro() {
       <div className="sub-contenedor">
         <div className="header">
           <h1>Category registration</h1>
-          <span>x</span>
+          <span onClick={onClose}>x</span>
         </div>
         <PictureContainer>
           <div className="ContentImage">
             <img src={fileurl} />
           </div>
           <BtnIcono
+            funcion={abrirImagenes}
             titulo="Add Image"
             textcolor="#fff"
             bgcolor="transparent"
@@ -72,7 +80,7 @@ export function Registro() {
                 <span>Color</span>
               </ContentTitle>
               <div className="colorPickerContent">
-                <CirclePicker />
+                <CirclePicker onChange={elegirColor} color={currentColor}/>
               </div>
             </div>
             <div>
@@ -126,7 +134,7 @@ const Container = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 20px;
+      margin-bottom: 20px;
       h1 {
         font-size: 20px;
         font-weight: 500;
@@ -163,6 +171,9 @@ const PictureContainer = styled.div`
       width: 100px;
       object-fit: cover;
     }
+  }
+  input{
+    display: none;
   }
 `;
 const ContentTitle = styled.div`

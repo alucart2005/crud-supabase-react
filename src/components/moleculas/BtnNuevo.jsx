@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import {v} from "../../index"
 
-export function BtnNuevo() {
+export function BtnNuevo({funcion}) {
   return (
     <a>
-      <Btn>
+      <Btn onClick={funcion}>
         <span className="containerText">
           {<v.agregar/>}
         </span>

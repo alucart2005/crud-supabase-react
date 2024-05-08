@@ -1,17 +1,29 @@
+import { useState } from "react";
 import googlelogo from "../assets/logogoogle.png";
 import { Perfil } from "../components/Perfil";
-import { Buscador, Tabla, UserAuth, Header, BtnNuevo, Registro } from "../index";
+import {
+  Buscador,
+  Tabla,
+  UserAuth,
+  Header,
+  BtnNuevo,
+  Registro,
+} from "../index";
 import styled from "styled-components";
 
 export function Home() {
+  const [openRegistro, setOpenRegistro] = useState(false);
+  function nuevoRegistro() {
+    setOpenRegistro(true);
+  }
   return (
     <Container>
       <Header />
       <span className="difuminado"></span>
-      <Registro/>
+      {openRegistro && <Registro onClose={()=>setOpenRegistro(!openRegistro)}/>}
       <section className="contentBuscador">
         <Buscador />
-        <BtnNuevo />
+        <BtnNuevo funcion={nuevoRegistro} />
       </section>
       <Tabla />
     </Container>
@@ -35,7 +47,7 @@ const Container = styled.div`
     filter: blur(4rem);
     top: 50px;
   }
-  .contentBuscador{
+  .contentBuscador {
     display: flex;
     justify-content: space-between;
     align-items: center;
