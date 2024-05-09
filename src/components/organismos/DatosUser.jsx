@@ -10,12 +10,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function DatosUser() {
-  const { user } = UserAuth();
+  const { user, signout } = UserAuth();
   const navigate = useNavigate();
   const [openDesplegableUser, setOpenDesplegableUser] = useState(false);
-  function funcionXtipo(tipo) {
+  async function funcionXtipo(tipo) {
     if (tipo === "miperfil") {
       navigate("/perfil")
+    }
+    if (tipo === "cerrarsesion") {
+      await signout();
     }
   }
   return (

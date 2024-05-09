@@ -8,7 +8,7 @@ import { UserAuth } from "../index";
 export function Login() {
   const {signInWithGoogle} = UserAuth();
   return (
-    <div className="App">
+    <Container >
       <div>
         <img src={viteLogo} className="logo" alt="Vite logo" />
         <img src={reactLogo} className="logo react" alt="React logo" />
@@ -23,7 +23,25 @@ export function Login() {
       <p className="read-the-docs">
         Supabase implements all the power of PostgreSQL
       </p>
-    </div>
+    </Container>
   );
 }
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: #242424;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  .card{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    button{
+      color: fuchsia;
+      border: solid 1px greenyellow;
+    }
+  }
+`;
