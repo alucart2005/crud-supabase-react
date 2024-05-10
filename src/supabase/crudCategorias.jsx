@@ -123,6 +123,5 @@ export async function BuscarCategorias(buscador, idusuario) {
     return data;
   } catch (error) {
     alert(error.error_description || error.message + " search category");
-
   }
 }
