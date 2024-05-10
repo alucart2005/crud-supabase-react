@@ -21,6 +21,7 @@ export const MostrarUsuarioXIdAuthSupabase = async (idauth_supabase) => {
     if (error) {
       throw error;
     }
+    return data;
   } catch (error) {
     alert(error.error_description || error.message);
   }

@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "../supabase/supabase.config";
 import { useNavigate } from "react-router-dom";
+import { InsertarUsuarios } from "../supabase/crudUsuarios";
+
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -29,7 +31,9 @@ export const AuthContextProvider = ({ children }) => {
           navigate("/login", { replace: true });
         } else {
           setUser(session?.user.user_metadata);
+          const {user}=session
           console.log("User data  ", session?.user.user_metadata);
+          insertarUsuarios(user.id,user.user_metadata)
           navigate("/", { replace: true });
         }
       }
@@ -38,6 +42,16 @@ export const AuthContextProvider = ({ children }) => {
       authListener.subscription
     }
   }, []);
+  const insertarUsuarios = async (idauth_supabase,datasProveedor)=>{
+    const p = {
+      nombres:datasProveedor.name,
+      foto:datasProveedor.picture,
+      celular:"-",
+      correo:datasProveedor.email,
+      idauth_supabase:idauth_supabase
+    }
+    await InsertarUsuarios(p)
+  }
   return (
     <AuthContext.Provider value={{ signInWithGoogle, signout, user }}>
       {children}
