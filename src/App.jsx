@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./App.css";
-import { AuthContextProvider } from "./index";
+// import { AuthContextProvider, CrudContextProvider } from "./index";
 import { MyRoutes } from "./routers/routes";
 import { createContext } from "react";
 import { ThemeProvider } from "styled-components";
-import { Light, Dark } from "./index";
+import { Light, Dark, AuthContextProvider, CrudContextProvider } from "./index";
 export const ThemeContext = createContext(null);
 
 function App() {
@@ -16,7 +16,9 @@ function App() {
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
         <AuthContextProvider>
-          <MyRoutes />
+          <CrudContextProvider>
+            <MyRoutes />
+          </CrudContextProvider>
         </AuthContextProvider>
       </ThemeProvider>
     </ThemeContext.Provider>

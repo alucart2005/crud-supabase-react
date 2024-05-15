@@ -38,7 +38,7 @@ export async function InsertarCategorias(p, idauthUserSupabase, file) {
   }
 }
 async function subirImagen(idauthUserSupabase, idcategoria, file) {
-  const ruta = idauthUserSupabase + "/categorias" + idcategoria;
+  const ruta = idauthUserSupabase + "/categorias/" + idcategoria;
   const { data, error } = await supabase.storage
     .from("imagenes")
     .upload(ruta, file, {

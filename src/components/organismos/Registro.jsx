@@ -1,17 +1,21 @@
 import { useState, useRef } from "react";
 import styled from "styled-components";
 import { BtnIcono, InputText, v } from "../../index";
+import { CrudSupabaseContext } from "../../index";
 import { useForm } from "react-hook-form";
 import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
+import Swal from "sweetalert2";
 
-export function Registro({onClose}) {
+export function Registro({ onClose }) {
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const ref = useRef(null);
   const [file, setFile] = useState([]);
   const [showPicker, setShowPicker] = useState(false);
-  const [emojiSelect, setEmojiSelect] = useState("👽")
-  const [currentColor, setColor]=useState("#e91e63")
+  const [emojiSelect, setEmojiSelect] = useState("👽");
+  const [currentColor, setColor] = useState("#e91e63");
+  const { dataUsuarios, insertarCategorias } = CrudSupabaseContext();
+
   function prepararImagen(e) {
     let filelocal = e.target.files;
     let fileReaderlocal = new FileReader();
@@ -25,11 +29,11 @@ export function Registro({onClose}) {
     }
   }
   function onEmojiClick(emojiObject) {
-    setEmojiSelect(()=>emojiObject.emoji)
-    setShowPicker(false)
+    setEmojiSelect(() => emojiObject.emoji);
+    setShowPicker(false);
   }
   function elegirColor(color) {
-    setColor(color.hex)
+    setColor(color.hex);
   }
   function abrirImagenes() {
     ref.current.click();
@@ -39,7 +43,25 @@ export function Registro({onClose}) {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  function insertar() {}
+  async function insertar(data) {
+    const p = {
+      descripcion: data.descripcion,
+      color: currentColor,
+      icono: emojiSelect,
+      idusuario: dataUsuarios.id,
+    };
+    try {
+      const img = file.length;
+      if (img != 0) {
+        await insertarCategorias(p, file);
+        Swal.fire({
+          title: "Good job!",
+          text: "Saved record!",
+          icon: "success"
+        });
+      }
+    } catch (error) {}
+  }
   return (
     <Container>
       <div className="sub-contenedor">
@@ -80,7 +102,7 @@ export function Registro({onClose}) {
                 <span>Color</span>
               </ContentTitle>
               <div className="colorPickerContent">
-                <CirclePicker onChange={elegirColor} color={currentColor}/>
+                <CirclePicker onChange={elegirColor} color={currentColor} />
               </div>
             </div>
             <div>
@@ -94,7 +116,7 @@ export function Registro({onClose}) {
               </ContentTitle>
               {showPicker && (
                 <ContainerEmojiPicker>
-                  <EmojiPicker onEmojiClick={onEmojiClick}/>
+                  <EmojiPicker onEmojiClick={onEmojiClick} />
                 </ContainerEmojiPicker>
               )}
             </div>
@@ -172,7 +194,7 @@ const PictureContainer = styled.div`
       object-fit: cover;
     }
   }
-  input{
+  input {
     display: none;
   }
 `;
@@ -184,7 +206,7 @@ const ContentTitle = styled.div`
   svg {
     font-size: 25px;
   }
-  input{
+  input {
     border: none;
     outline: none;
     background: transparent;
@@ -192,7 +214,6 @@ const ContentTitle = styled.div`
     width: 35px;
     font-size: 25px;
   }
-
 `;
 const ContainerEmojiPicker = styled.div`
   position: absolute;

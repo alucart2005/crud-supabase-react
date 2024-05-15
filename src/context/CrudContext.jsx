@@ -1,11 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { InsertarCategorias } from "../supabase/crudCategorias";
 import { supabase } from "../supabase/supabase.config";
 import { MostrarUsuarioXIdAuthSupabase } from "../supabase/crudUsuarios";
 
 const CrudContext = createContext();
-export function CrudContextProvider({children}) {
-  const { dataUsuarios, setDatausuarios } = useState([]);
+export function CrudContextProvider({ children }) {
+  const [dataUsuarios, setDatausuarios] = useState([]);
   async function insertarCategorias(p, file) {
     const idAuthSupabase = await obtenerAuthSupabaseXuser();
     await InsertarCategorias(p, idAuthSupabase, file);
@@ -16,6 +16,9 @@ export function CrudContextProvider({children}) {
     setDatausuarios(data[0]);
     return data[0];
   }
+  useEffect(() => {
+    mostrarUsuarios();
+  }, []);
   async function obtenerAuthSupabaseXuser() {
     const {
       data: { session },
@@ -27,11 +30,11 @@ export function CrudContextProvider({children}) {
     }
   }
   return (
-    <CrudContext.Provider value={dataUsuarios}>
+    <CrudContext.Provider value={{ dataUsuarios, insertarCategorias }}>
       {children}
     </CrudContext.Provider>
-  )
+  );
 }
-export const CrudSupabaseContext =()=>{
-  return useContext(CrudContext)
-}
+export const CrudSupabaseContext = () => {
+  return useContext(CrudContext);
+};
