@@ -101,12 +101,9 @@ export async function MostrarCategorias(idusuario) {
       .select()
       .eq("idusuario", idusuario)
       .order("id", { ascending: false });
-    if (error) {
-      alert("Category error ", error);
-    }
     return data;
   } catch (error) {
-    alert(error.error_description || error.message + " show category");
+    alert(error.error_description || error.message + " Error show category");
   }
 }
 export async function BuscarCategorias(buscador, idusuario) {

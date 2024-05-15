@@ -9,10 +9,12 @@ import {
   Header,
   BtnNuevo,
   Registro,
+  CrudSupabaseContext
 } from "../index";
 import styled from "styled-components";
 
 export function Home() {
+  const {datacategoria} = CrudSupabaseContext()
   const [openRegistro, setOpenRegistro] = useState(false);
   function nuevoRegistro() {
     setOpenRegistro(true);
@@ -21,12 +23,14 @@ export function Home() {
     <Container>
       <Header />
       <span className="difuminado"></span>
-      {openRegistro && <Registro onClose={()=>setOpenRegistro(!openRegistro)}/>}
+      {openRegistro && (
+        <Registro onClose={() => setOpenRegistro(!openRegistro)} />
+      )}
       <section className="contentBuscador">
         <Buscador />
         <BtnNuevo funcion={nuevoRegistro} />
       </section>
-      <Tabla />
+      <Tabla rows={datacategoria}/>
     </Container>
   );
 }

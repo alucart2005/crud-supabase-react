@@ -1,52 +1,55 @@
 import styled from "styled-components";
-import {
-  v,
-  DataCategoriaFake,
-  ColorContent,
-  ContentAccionesTabla,
-} from "../../index";
+import { v, ColorContent, ContentAccionesTabla } from "../../index";
 
-export function Tabla() {
+export function Tabla({ rows }) {
   return (
-    <Container>
-      <table className="responsive-table">
-        <thead>
-          <tr>
-            <th scope="col">Imagen</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Icono</th>
-            <th scope="col">Color</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {DataCategoriaFake.map((item, index) => {
-            return (
-              <tr key={index}>
-                <th scope="row">
-                  <ImageContent>
-                    <img src={item.imagen} />
-                  </ImageContent>
-                </th>
-                <th scope="row">{item.descripcion}</th>
-                <td data-title="Icono">{item.icono}</td>
-                <td data-title="Color" className="ColorDiv">
-                  <div className="colorContent">
-                    <ColorContent color={item.color} alto="25px" ancho="25px" />
-                  </div>
-                </td>
-                <td data-title="Acciones">
-                  <ContentAccionesTabla />
-
-                  {/* <span>x</span>
-                  <span>Edit</span> */}
-                </td>
+    <>
+      {rows.length > 0 && (
+        <Container>
+          <table className="responsive-table">
+            <thead>
+              <tr>
+                <th scope="col">Imagen</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Icono</th>
+                <th scope="col">Color</th>
+                <th scope="col">Acciones</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Container>
+            </thead>
+            <tbody>
+              {rows.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <th scope="row">
+                      <ImageContent>
+                        <img src={item.imagen} />
+                      </ImageContent>
+                    </th>
+                    <th scope="row">{item.descripcion}</th>
+                    <td data-title="Icono">{item.icono}</td>
+                    <td data-title="Color" className="ColorDiv">
+                      <div className="colorContent">
+                        <ColorContent
+                          color={item.color}
+                          alto="25px"
+                          ancho="25px"
+                        />
+                      </div>
+                    </td>
+                    <td data-title="Acciones">
+                      <ContentAccionesTabla />
+
+                      {/* <span>x</span>
+                  <span>Edit</span> */}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Container>
+      )}
+    </>
   );
 }
 const Container = styled.div`
