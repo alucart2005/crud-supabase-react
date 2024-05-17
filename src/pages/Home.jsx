@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import googlelogo from "../assets/logogoogle.png";
 // import { Perfil } from "../components/Perfil";
 
@@ -9,28 +9,62 @@ import {
   Header,
   BtnNuevo,
   Registro,
-  CrudSupabaseContext
+  CrudSupabaseContext,
+  supabase,
 } from "../index";
 import styled from "styled-components";
 
 export function Home() {
-  const {datacategoria} = CrudSupabaseContext()
+  const { datacategoria, setDatacategoria } = CrudSupabaseContext();
   const [openRegistro, setOpenRegistro] = useState(false);
+  const [dataSelect, setDataSelect] = useState([]);
+  const [accion, setAccion] = useState("");
+
+  useEffect(() => {
+    supabase
+      .channel("schema-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "categorias",
+        },
+        (payload) => {
+          payload.new.id != undefined
+            ? setDatacategoria((newdata) => [...newdata, payload.new])
+            : "";
+        }
+      )
+      .subscribe();
+  }, []);
+
   function nuevoRegistro() {
     setOpenRegistro(true);
+    setAccion("Nuevo");
+    setDataSelect([]);
   }
   return (
     <Container>
       <Header />
       <span className="difuminado"></span>
       {openRegistro && (
-        <Registro onClose={() => setOpenRegistro(!openRegistro)} />
+        <Registro
+          dataSelect={dataSelect}
+          onClose={() => setOpenRegistro(!openRegistro)}
+          accion={accion}
+        />
       )}
       <section className="contentBuscador">
         <Buscador />
         <BtnNuevo funcion={nuevoRegistro} />
       </section>
-      <Tabla rows={datacategoria}/>
+      <Tabla
+        rows={datacategoria}
+        setDataSelect={setDataSelect}
+        setOpenRegistro={setOpenRegistro}
+        setAccion={setAccion}
+      />
     </Container>
   );
 }

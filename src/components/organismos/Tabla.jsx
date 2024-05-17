@@ -1,7 +1,40 @@
 import styled from "styled-components";
-import { v, ColorContent, ContentAccionesTabla } from "../../index";
+import {
+  v,
+  ColorContent,
+  ContentAccionesTabla,
+  CrudSupabaseContext,
+} from "../../index";
+import Swal from "sweetalert2";
 
-export function Tabla({ rows }) {
+export function Tabla({ rows, setOpenRegistro, setDataSelect, setAccion }) {
+  const { eliminarCategorias } = CrudSupabaseContext();
+
+  function eliminar(id) {
+    Swal.fire({
+      title: "Do you want to delete this data?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarCategorias(id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your data has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  }
+  function editar(data) {
+    setOpenRegistro(true);
+    setDataSelect(data);
+    setAccion("Editar");
+  }
   return (
     <>
       {rows.length > 0 && (
@@ -37,10 +70,12 @@ export function Tabla({ rows }) {
                       </div>
                     </td>
                     <td data-title="Acciones">
-                      <ContentAccionesTabla />
-
-                      {/* <span>x</span>
-                  <span>Edit</span> */}
+                      <ContentAccionesTabla
+                        funcionEliminar={() => eliminar(item.id)}
+                        funcionEditar={() => {
+                          editar(item);
+                        }}
+                      />
                     </td>
                   </tr>
                 );

@@ -26,13 +26,13 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log("supabase event", event);
+        //console.log("supabase event", event);
         if (session == null) {
           navigate("/login", { replace: true });
         } else {
           setUser(session?.user.user_metadata);
           const {user}=session
-          console.log("User data  ", session?.user.user_metadata);
+          // console.log("User data  ", session?.user.user_metadata);
           insertarUsuarios(user.id,user.user_metadata)
           navigate("/", { replace: true });
         }

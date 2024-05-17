@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { BtnIcono, InputText, v } from "../../index";
 import { CrudSupabaseContext } from "../../index";
@@ -7,14 +7,14 @@ import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
 import Swal from "sweetalert2";
 
-export function Registro({ onClose, dataSelect }) {
-  const [fileurl, setFileurl] = useState(v.sinfoto);
+export function Registro({ onClose, dataSelect, accion }) {
   const ref = useRef(null);
+  const { dataUsuarios, insertarCategorias } = CrudSupabaseContext();
+  const [fileurl, setFileurl] = useState(v.sinfoto);
   const [file, setFile] = useState([]);
   const [showPicker, setShowPicker] = useState(false);
   const [emojiSelect, setEmojiSelect] = useState("👽");
   const [currentColor, setColor] = useState("#e91e63");
-  const { dataUsuarios, insertarCategorias } = CrudSupabaseContext();
 
   function prepararImagen(e) {
     let filelocal = e.target.files;
@@ -57,11 +57,20 @@ export function Registro({ onClose, dataSelect }) {
         Swal.fire({
           title: "Good job!",
           text: "Saved record!",
-          icon: "success"
+          icon: "success",
         });
+        onClose()
       }
     } catch (error) {}
   }
+  useEffect(()=>{
+    if (accion==="Editar") {
+      setEmojiSelect(dataSelect.icono)
+      setColor(dataSelect.color)
+      setFileurl(dataSelect.imagen)
+
+    }
+  },[])
   return (
     <Container>
       <div className="sub-contenedor">
@@ -90,6 +99,7 @@ export function Registro({ onClose, dataSelect }) {
           <section>
             <div>
               <InputText
+                defaultValue={dataSelect.descripcion}
                 register={register}
                 placeholder="Descripcion"
                 errors={errors}

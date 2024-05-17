@@ -6,6 +6,8 @@ import {
   MostrarUsuarioXIdAuthSupabase,
   InsertarCategorias,
   MostrarCategorias,
+  EliminarCategoria,
+  EditarCategorias,
 } from "../index";
 
 const CrudContext = createContext();
@@ -33,6 +35,16 @@ export function CrudContextProvider({ children }) {
   useEffect(() => {
     mostrarCategorias();
   }, []);
+  async function editarCategorias(p,file) {
+    const idAuthSupabase = await obtenerAuthSupabaseXuser();
+    await EditarCategorias(p,dataUsuarios.id,file,idAuthSupabase);
+  }
+  async function eliminarCategorias(id) {
+    const idAuthSupabase = await obtenerAuthSupabaseXuser();
+    const idusuario = dataUsuarios.id;
+    await EliminarCategoria(id,idusuario,idAuthSupabase)
+    setDatacategoria(datacategoria.filter((data)=>data.id!==id))
+  }
   async function obtenerAuthSupabaseXuser() {
     const {
       data: { session },
@@ -44,7 +56,7 @@ export function CrudContextProvider({ children }) {
     }
   }
   return (
-    <CrudContext.Provider value={{ dataUsuarios, insertarCategorias,datacategoria }}>
+    <CrudContext.Provider value={{ dataUsuarios, insertarCategorias,datacategoria, setDatacategoria, eliminarCategorias }}>
       {children}
     </CrudContext.Provider>
   );
