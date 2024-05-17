@@ -7,7 +7,7 @@ import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
 import Swal from "sweetalert2";
 
-export function Registro({ onClose }) {
+export function Registro({ onClose, dataSelect }) {
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const ref = useRef(null);
   const [file, setFile] = useState([]);
