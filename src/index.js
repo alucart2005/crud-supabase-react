@@ -27,3 +27,4 @@ export * from "./pages/Perfil";
 export * from "./context/AuthContext"
 export * from "./context/CrudContext"
 export * from "./utils/dataEstatica";
+export * from "./utils/Conversiones"

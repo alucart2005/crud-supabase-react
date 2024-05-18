@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { BtnIcono, InputText, v } from "../../index";
-import { CrudSupabaseContext } from "../../index";
+import { useState, useRef, useEffect } from "react";
+import { BtnIcono, InputText, v,CrudSupabaseContext, ConvertirCapitalize } from "../../index";
 import { useForm } from "react-hook-form";
 import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
@@ -45,7 +44,7 @@ export function Registro({ onClose, dataSelect, accion }) {
   } = useForm();
   async function insertar(data) {
     const p = {
-      descripcion: data.descripcion,
+      descripcion: ConvertirCapitalize(data.descripcion) ,
       color: currentColor,
       icono: emojiSelect,
       idusuario: dataUsuarios.id,
