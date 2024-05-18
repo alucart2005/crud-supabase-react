@@ -10,12 +10,18 @@ export async function InsertarCategorias(p, idauthUserSupabase, file) {
     if (error) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "Already exists a record with" + p.descripcion,
-        footer: '<a href="#">Add a new description</a>',
+        title: "Error...",
+        text: "Already exists a record with  " + p.descripcion,
+        footer: '<a href="#">Please add a new description</a>',
       });
     }
     if (data) {
+      Swal.fire({
+        title: "Good job!",
+        text: "Saved record!",
+        icon: "success",
+      });
+
       // rescue entered id
       const idNuevo = data[0].id;
       // up to storage

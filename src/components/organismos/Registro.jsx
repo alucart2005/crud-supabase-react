@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
-import { BtnIcono, InputText, v,CrudSupabaseContext, ConvertirCapitalize } from "../../index";
+import {
+  BtnIcono,
+  InputText,
+  v,
+  CrudSupabaseContext,
+  ConvertirCapitalize,
+  Spinner,
+} from "../../index";
 import { useForm } from "react-hook-form";
 import { CirclePicker } from "react-color";
 import EmojiPicker from "emoji-picker-react";
@@ -14,6 +21,7 @@ export function Registro({ onClose, dataSelect, accion }) {
   const [showPicker, setShowPicker] = useState(false);
   const [emojiSelect, setEmojiSelect] = useState("👽");
   const [currentColor, setColor] = useState("#e91e63");
+  const [estadoProceso, setEstadoProceso] = useState(false);
 
   function prepararImagen(e) {
     let filelocal = e.target.files;
@@ -44,7 +52,7 @@ export function Registro({ onClose, dataSelect, accion }) {
   } = useForm();
   async function insertar(data) {
     const p = {
-      descripcion: ConvertirCapitalize(data.descripcion) ,
+      descripcion: ConvertirCapitalize(data.descripcion),
       color: currentColor,
       icono: emojiSelect,
       idusuario: dataUsuarios.id,
@@ -52,26 +60,23 @@ export function Registro({ onClose, dataSelect, accion }) {
     try {
       const img = file.length;
       if (img != 0) {
+        setEstadoProceso(true);
         await insertarCategorias(p, file);
-        Swal.fire({
-          title: "Good job!",
-          text: "Saved record!",
-          icon: "success",
-        });
-        onClose()
+        setEstadoProceso(false)
+        onClose();
       }
     } catch (error) {}
   }
-  useEffect(()=>{
-    if (accion==="Editar") {
-      setEmojiSelect(dataSelect.icono)
-      setColor(dataSelect.color)
-      setFileurl(dataSelect.imagen)
-
+  useEffect(() => {
+    if (accion === "Editar") {
+      setEmojiSelect(dataSelect.icono);
+      setColor(dataSelect.color);
+      setFileurl(dataSelect.imagen);
     }
-  },[])
+  }, []);
   return (
     <Container>
+      {estadoProceso && <Spinner />}
       <div className="sub-contenedor">
         <div className="header">
           <h1>Category registration</h1>
