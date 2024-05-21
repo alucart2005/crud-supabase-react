@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 // import googlelogo from "../assets/logogoogle.png";
 // import { Perfil } from "../components/Perfil";
-
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import {
   Buscador,
   Tabla,
@@ -12,17 +12,16 @@ import {
   CrudSupabaseContext,
   supabase,
 } from "../index";
-import styled from "styled-components";
 
 export function Home() {
-  const { datacategoria, setDatacategoria } = CrudSupabaseContext();
+  const { datacategoria, setDatacategoria, mostrarCategorias } = CrudSupabaseContext();
   const [openRegistro, setOpenRegistro] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
   const [accion, setAccion] = useState("");
 
   useEffect(() => {
     supabase
-      .channel("schema-db-changes")
+      .channel("postgresChangesChannel")
       .on(
         "postgres_changes",
         {
@@ -31,14 +30,13 @@ export function Home() {
           table: "categorias",
         },
         (payload) => {
-          payload.new.id != undefined
-            ? setDatacategoria((newdata) => [...newdata, payload.new])
+          payload.new.imagen != undefined
+            ? setDatacategoria((data) => [...data, payload.new])
             : "";
         }
       )
       .subscribe();
   }, []);
-
   function nuevoRegistro() {
     setOpenRegistro(true);
     setAccion("Nuevo");
