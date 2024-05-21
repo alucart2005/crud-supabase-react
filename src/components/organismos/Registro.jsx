@@ -15,7 +15,8 @@ import Swal from "sweetalert2";
 
 export function Registro({ onClose, dataSelect, accion }) {
   const ref = useRef(null);
-  const { dataUsuarios, insertarCategorias } = CrudSupabaseContext();
+  const { dataUsuarios, insertarCategorias, editarCategorias } =
+    CrudSupabaseContext();
   const [fileurl, setFileurl] = useState(v.sinfoto);
   const [file, setFile] = useState([]);
   const [showPicker, setShowPicker] = useState(false);
@@ -51,21 +52,36 @@ export function Registro({ onClose, dataSelect, accion }) {
     handleSubmit,
   } = useForm();
   async function insertar(data) {
-    const p = {
-      descripcion: ConvertirCapitalize(data.descripcion),
-      color: currentColor,
-      icono: emojiSelect,
-      idusuario: dataUsuarios.id,
-    };
-    try {
-      const img = file.length;
-      if (img != 0) {
+    if (accion === "Editar") {
+      const p = {
+        descripcion: ConvertirCapitalize(data.descripcion),
+        color: currentColor,
+        icono: emojiSelect,
+        id: dataSelect.id,
+      };
+      try {
         setEstadoProceso(true);
-        await insertarCategorias(p, file);
-        setEstadoProceso(false)
+        await editarCategorias(p, file);
+        setEstadoProceso(false);
         onClose();
-      }
-    } catch (error) {}
+      } catch (error) {}
+    } else {
+      const p = {
+        descripcion: ConvertirCapitalize(data.descripcion),
+        color: currentColor,
+        icono: emojiSelect,
+        idusuario: dataUsuarios.id,
+      };
+      try {
+        const img = file.length;
+        if (img != 0) {
+          setEstadoProceso(true);
+          await insertarCategorias(p, file);
+          setEstadoProceso(false);
+          onClose();
+        }
+      } catch (error) {}
+    }
   }
   useEffect(() => {
     if (accion === "Editar") {

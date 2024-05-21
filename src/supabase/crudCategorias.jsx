@@ -73,15 +73,16 @@ export async function EditarCategorias(p, idusuario, file, idauthUserSupabase) {
     if (error) {
       alert("Error editing category", error);
     }
+
     if (file.length != 0) {
-      const ruta = idauthUserSupabase + "/categorias" + p.id;
+      const ruta = idauthUserSupabase + "/categorias/" + p.id;
       await supabase.storage.from("imagenes").update(ruta, file, {
         cacheControl: "0",
         upsert: true,
       });
     }
   } catch (error) {
-    alert(error.error_description || error.message + " edit categories");
+    alert(error.error_description || error.message + " editar categorias");
   }
 }
 export async function EliminarCategoria(id, idusuario, idauthUserSupabaseId) {

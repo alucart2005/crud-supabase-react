@@ -56,7 +56,7 @@ export function CrudContextProvider({ children }) {
     }
   }
   return (
-    <CrudContext.Provider value={{ dataUsuarios, insertarCategorias,datacategoria, setDatacategoria, eliminarCategorias }}>
+    <CrudContext.Provider value={{ dataUsuarios, insertarCategorias,datacategoria, setDatacategoria, eliminarCategorias, editarCategorias }}>
       {children}
     </CrudContext.Provider>
   );
