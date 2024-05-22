@@ -1,11 +1,19 @@
 import styled from "styled-components";
 import { BsSearchHeart } from "react-icons/bs";
+import {CrudSupabaseContext} from "../../index"
+import { useState } from "react";
 
 export function Buscador() {
+  const {buscarCategorias} = CrudSupabaseContext();
+  const [search, setSearch] = useState("");
+  function buscar(e) {
+    setSearch(e.target.value);
+    buscarCategorias(e.target.value)
+  }
   return (
     <Container>
       <BsSearchHeart />
-      <input />
+      <input value={search} onChange={buscar} placeholder="...Searh"/>
     </Container>
   );
 }

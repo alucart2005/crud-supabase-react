@@ -8,6 +8,7 @@ import {
   MostrarCategorias,
   EliminarCategoria,
   EditarCategorias,
+  BuscarCategorias,
 } from "../index";
 
 const CrudContext = createContext();
@@ -55,6 +56,11 @@ export function CrudContextProvider({ children }) {
       return idAuthSupabase;
     }
   }
+  async function buscarCategorias(buscador) {
+    const idusuarios = dataUsuarios.id;
+    const result = await BuscarCategorias(buscador, idusuarios);
+    setDatacategoria(result);
+  }
   return (
     <CrudContext.Provider
       value={{
@@ -65,6 +71,7 @@ export function CrudContextProvider({ children }) {
         eliminarCategorias,
         editarCategorias,
         mostrarCategorias,
+        buscarCategorias,
       }}
     >
       {children}

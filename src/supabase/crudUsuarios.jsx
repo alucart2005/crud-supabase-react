@@ -18,9 +18,6 @@ export const MostrarUsuarioXIdAuthSupabase = async (idauth_supabase) => {
       .from("usuarios")
       .select("id,nombres,foto,idauth_supabase,correo")
       .eq("idauth_supabase", idauth_supabase);
-    // if (error) {
-    //   throw error;
-    // }
     return data;
   } catch (error) {
     alert(error.error_description || error.message);

@@ -30,6 +30,7 @@ export function Home() {
           table: "categorias",
         },
         (payload) => {
+          mostrarCategorias()
           payload.new.imagen != undefined
             ? setDatacategoria((data) => [...data, payload.new])
             : "";

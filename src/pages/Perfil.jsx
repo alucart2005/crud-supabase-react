@@ -6,7 +6,7 @@ export function Perfil() {
   const { user } = UserAuth();
   const navigate = useNavigate();
   function volver(params) {
-    navigate("/");
+    navigate("/", {replace:true});
   }
   return (
     <Container>
